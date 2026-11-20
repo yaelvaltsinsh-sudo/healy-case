@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Healy — кейс</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#fff}
+main{max-width:1920px;margin:0 auto;line-height:0;font-size:0}
+main img,main video{display:block;width:100%;height:auto;border:0;outline:0;vertical-align:top;background:#fff}
+video::-webkit-media-controls{display:none!important}
+video::-webkit-media-controls-start-playback-button{display:none!important}
+</style></head><body>
+<main>
+<img src="01.jpg" width="1920" height="1080" alt="" decoding="async">
+<img src="02.jpg" width="1920" height="919" alt="" decoding="async">
+<video src="03.mp4" width="1714" height="1080" autoplay muted loop playsinline webkit-playsinline preload="auto" disablepictureinpicture></video>
+<img src="04.jpg" width="1920" height="382" alt="" loading="lazy" decoding="async">
+<img src="05.jpg" width="1920" height="748" alt="" loading="lazy" decoding="async">
+<video src="06.mp4" width="1920" height="1280" autoplay muted loop playsinline webkit-playsinline preload="auto" disablepictureinpicture></video>
+<img src="07.jpg" width="1920" height="1080" alt="" loading="lazy" decoding="async">
+<img src="08.jpg" width="1920" height="777" alt="" loading="lazy" decoding="async">
+<img src="09.jpg" width="1920" height="1080" alt="" loading="lazy" decoding="async">
+<img src="10.jpg" width="1920" height="1080" alt="" loading="lazy" decoding="async">
+<video src="11.mp4" width="1714" height="1080" autoplay muted loop playsinline webkit-playsinline preload="auto" disablepictureinpicture></video>
+<img src="12.jpg" width="1920" height="1080" alt="" loading="lazy" decoding="async">
+<img src="13.jpg" width="1920" height="1080" alt="" loading="lazy" decoding="async">
+<img src="14.jpg" width="1920" height="1080" alt="" loading="lazy" decoding="async">
+<video src="15.mp4" width="1920" height="1078" autoplay muted loop playsinline webkit-playsinline preload="auto" disablepictureinpicture></video>
+<video src="16.mp4" width="1920" height="746" autoplay muted loop playsinline webkit-playsinline preload="auto" disablepictureinpicture></video>
+<video src="17.mp4" width="1920" height="856" autoplay muted loop playsinline webkit-playsinline preload="auto" disablepictureinpicture></video>
+</main>
+<script>
+// Гарантированный автоплей: iOS/Android иногда ставят видео на паузу — запускаем, когда блок виден
+(function(){
+  var vids=[].slice.call(document.querySelectorAll('video'));
+  function play(v){v.muted=true;var p=v.play();if(p&&p.catch)p.catch(function(){});}
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){
+      if(e.isIntersecting){if(e.target.preload!=='auto')e.target.preload='auto';play(e.target);} else e.target.pause();
+    });},{rootMargin:'300px 0px'});
+    vids.forEach(function(v){io.observe(v);});
+  } else vids.forEach(play);
+  document.addEventListener('touchstart',function(){vids.forEach(function(v){if(v.paused)play(v);});},{once:true,passive:true});
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)vids.forEach(function(v){var r=v.getBoundingClientRect();if(r.bottom>0&&r.top<innerHeight)play(v);});});
+})();
+</script>
+</body></html>
